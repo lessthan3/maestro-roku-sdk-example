@@ -1,0 +1,190 @@
+{
+  "entities": {
+    "team": {
+      "11": {
+        "id": "11",
+        "abbreviation": "PHX",
+        "displayName": "Phoenix Mercury",
+        "color": "3c286e",
+        "alternateColor": "e56020",
+        "shortName": "Mercury",
+        "homeAway": "away",
+        "displayOrder": "1",
+        "logoRef": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/teams/11.jpg",
+        "logoDarkRef": "https://a.espncdn.com/i/teamlogos/wnba/500-dark/phx.png"
+      },
+      "5": {
+        "id": "5",
+        "abbreviation": "IND",
+        "displayName": "Indiana Fever",
+        "color": "002d62",
+        "alternateColor": "e03a3e",
+        "shortName": "Fever",
+        "homeAway": "home",
+        "displayOrder": "0",
+        "logoRef": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/teams/5.jpg",
+        "logoDarkRef": "https://a.espncdn.com/i/teamlogos/wnba/500-dark/ind.png"
+      }
+    },
+    "athlete": {
+      "4432831": {
+        "id": "4432831",
+        "shortName": "A. Boston",
+        "headshot": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/4432831.jpg"
+      },
+      "2998938": {
+        "id": "2998938",
+        "shortName": "K. Copper",
+        "headshot": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/2998938.jpg"
+      },
+      "2529130": {
+        "id": "2529130",
+        "shortName": "N. Howard",
+        "headshot": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/2529130.jpg"
+      },
+      "887": {
+        "id": "887",
+        "shortName": "S. Whitcomb",
+        "headshot": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/887.jpg"
+      },
+      "4281929": {
+        "id": "4281929",
+        "shortName": "S. Sabally",
+        "headshot": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/4281929.jpg"
+      },
+      "3142087": {
+        "id": "3142087",
+        "shortName": "K. Westbeld",
+        "headshot": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/3142087.jpg"
+      }
+    }
+  },
+  "sections": [
+    {
+      "title": "1st Quarter",
+      "items": [
+        {
+          "description": "Fever pull through in 107-101 win vs. Mercury",
+          "team": "5",
+          "awayScore": "2",
+          "homeScore": "2",
+          "wallClock": "2025-07-30T23:03:17Z",
+          "displayClock": "9:20",
+          "shortPeriod": "Q1",
+          "scoringPlay": true,
+          "athlete": "2529130",
+          "thumbnail": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/2529130.jpg",
+          "thumbnailType": "headshot",
+          "clipID": "45864406"
+        },
+        {
+          "description": "Alyssa Thomas (32 points) Highlights vs. Indiana Fever",
+          "team": "11",
+          "awayScore": "11",
+          "homeScore": "6",
+          "wallClock": "2025-07-30T23:10:41Z",
+          "displayClock": "6:22",
+          "shortPeriod": "Q1",
+          "scoringPlay": true,
+          "athlete": "4281929",
+          "thumbnail": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/4281929.jpg",
+          "thumbnailType": "headshot",
+          "clipID": "45864404"
+        },
+        {
+          "description": "Kahleah Copper sinks it from downtown",
+          "team": "11",
+          "awayScore": "21",
+          "homeScore": "11",
+          "wallClock": "2025-07-30T23:18:20Z",
+          "displayClock": "3:42",
+          "shortPeriod": "Q1",
+          "scoringPlay": true,
+          "thumbnail": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/2998938.jpg",
+          "thumbnailType": "headshot",
+          "clipID": "45863649"
+        }
+      ]
+    },
+    {
+      "title": "2nd Quarter",
+      "items": [
+        {
+          "description": "Kathryn Westbeld nails it from behind the arc",
+          "team": "11",
+          "awayScore": "38",
+          "homeScore": "38",
+          "wallClock": "2025-07-30T23:50:18Z",
+          "displayClock": "5:06",
+          "shortPeriod": "Q2",
+          "scoringPlay": true,
+          "athlete": "3142087",
+          "thumbnail": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/3142087.jpg",
+          "thumbnailType": "headshot",
+          "clipID": "45863893"
+        },
+        {
+          "description": "Sami Whitcomb with the last basket of the period",
+          "team": "11",
+          "awayScore": "50",
+          "homeScore": "55",
+          "wallClock": "2025-07-31T00:02:09Z",
+          "displayClock": "0.0",
+          "shortPeriod": "Q2",
+          "scoringPlay": true,
+          "athlete": "887",
+          "thumbnail": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/887.jpg",
+          "thumbnailType": "headshot",
+          "clipID": "45863974"
+        }
+      ]
+    },
+    {
+      "title": "3rd Quarter",
+      "items": [
+        {
+          "description": "Natasha Howard rises to block the shot",
+          "team": "5",
+          "wallClock": "2025-07-31T00:26:11Z",
+          "displayClock": "5:25",
+          "shortPeriod": "Q3",
+          "scoringPlay": false,
+          "thumbnail": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/2529130.jpg",
+          "thumbnailType": "headshot",
+          "clipID": "45864136"
+        }
+      ]
+    },
+    {
+      "title": "4th Quarter",
+      "items": [
+        {
+          "description": "Aliyah Boston scores and draws the foul",
+          "team": "5",
+          "awayScore": "77",
+          "homeScore": "84",
+          "wallClock": "2025-07-31T00:53:03Z",
+          "displayClock": "7:19",
+          "shortPeriod": "Q4",
+          "scoringPlay": true,
+          "athlete": "4432831",
+          "thumbnail": "https://stitcher.espn.com/ctv/sports/basketball/leagues/wnba/athletes/4432831.jpg",
+          "thumbnailType": "headshot",
+          "clipID": "45864327"
+        }
+      ]
+    },
+    {
+      "title": "More Key Plays",
+      "items": [
+        {
+          "description": "Satou Sabally scores and draws the foul",
+          "thumbnail": "https://client.espncdn.com/combiner/i?img=/media/motion/wsc/2025/0730/23ecfacb-4bcc-46e7-81c9-bfde495f5839/23ecfacb-4bcc-46e7-81c9-bfde495f5839.jpg&scale=crop",
+          "thumbnailType": "clip",
+          "clipID": "45863529",
+          "dateCreated": "2025-07-30T23:10:26Z"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+    "default": {
+        "swId": "%7B1F756443-744D-42A4-984D-5E01F2B90F68%7D",
+        "authToken": "AEBpWKVyjNmYMkHD6%2B351tqKLlTZtra%2BKxSF0vWuXrJLcLCtPxTCaWTkIlHNVN8QlXTH9DXvq%2Fy8ReaByi%2BYyEXtp9%2Bb7Cmtf2iGy9Bh8j0FOUqgAWWO7Kdc9qX7jbVRswe2c%2BVtgYfY1V2qui7Yq6U0C2kEok8%2FHryc%2FBMkGuSZrORXs3z1C91msnQEKt9ukC9lyt1hSO%2BsBA9giq8GBGOW3mKnRHY9FeS9Z7C86fM8Nq6Z%2FDWI3d7IPouBJ%2B7GXQZ%2BTy9upovSIOAKLn%2F5wHGh7%2FvYgSbZcxujPexnSiFv3A%3D%3D",
+        "useProdEnv": true
+    },
+    "ishiSwid": {
+        "swId": "%7B2FA76D3F-0A47-4798-A66A-C39496253C0D%7D",
+        "authToken": "AEASmFr8MG3nn5gILyEyIj59iEOTxN2SpDtvn5WLOf5ETh58LIpQTQ%2FEebzqMD9AZr4aiP6v4R%2BPBoo0XlDeqmCnh78KzM07%2BSweLPj%2BfbH0cZoVLqIPzLFIlbJePI4ruWJN8kkPAH%2Bz2W%2FIpAsMls%2FwanbcXqLKgSEw7pc418Ezdt%2Fpngn0eHtJvAAsRkQMA23zRHrnv%2BtXL%2FZ3s2b%2BxruojRIL%2F9DmNKtPE3OZdA4c%2B8LoXyk0Mh%2FhM%2FGn%2BNgz4Q89jpJIBO5%2BHjZhxgYXggPK",
+        "useProdEnv": false
+    },
+    "alexSwid": {
+        "swId": "%7B294DDF24-783A-44FC-A239-9222DF3AA532%7D",
+        "authToken": "AECioaKAfjSyiKGZIRcuHoqANGbIG83kK9htUMlor2canthDPJqzHBlzVFViJ5%2BnDjbPY2p9Iry7y7emeFPYPHK9AbpSiSGlkZGlYlsDxpKy5%2BPPORDcXVvZ5ilIp8W3aHHqcm%2BqwjHSiYpK7ejTSjoE9FdcbTPqGuVYTpKJ1uzDLciDOxD8OwhEJxznvcPF5ZX3E4HXwCEqrvbg89EoWEPR2TTv2qexu7HRlQpgZMK%2FR%2B4MczJWb%2FK3%2F7VtuUyPDcyz2t%2FhbbtF3EcqgbPLYuPY%2Fm5y54Ym17y3rCPt6%2BSxwQ%3D%3D",
+        "useProdEnv": false
+    },
+    "betsSwid": {
+        "swId": "%7B45636D22-B82E-494E-B0BD-DBF25AB34BB5%7D",
+        "authToken": "AEA916LtQmdBEZaslSodIec3p/BaLeVs//M0vT1/lWr7EB/O3KAYs194dsnz/ytViMfYJw7sw0psPTaLeiDSljkUoZ8oei6NXfyANi2aHiFNzXJVRhVX9RxgBivWJbwMW9+UNriY+OpQAtmvdJ8Z4YImkg8I/ObizzP1p2us9RpqrKByaG0hejzX7qGx3EkkD0gLi5jp19IZxVGrqvXusM8rOSAiKytR0by9elfs0KGCXjdw6M0/qmolfyQviKQpTlwakeixqUsvngwX+Ws/rgm88IuQFwfdg9KWgFkMPhwEFj3LMdu155Gbh4fJM8p2wwtN+/MtynUXQPiGXWoB9AZC",
+        "useProdEnv": false
+    },
+    "draftSwid": {
+        "swId": "%7B9717B3D5-148D-4FB1-9E85-4F85860355D8%7D",
+        "authToken": "AECII6q29wSewWijmI%2BqUvK5iBcIjb%2FWwVw8zmDtg%2Bcg7L2DYLBVwSiBldSII3alJIOU7tQp%2B3HQBxZOpPpxjOXeouyi2uiCi6tYaLIpFqNJQ5ua2f5smtKIrJ1J3nCZ5CKGr18A3pUKjny%2FYhIYJ%2BoZuS5ldAx%2B6EQDnFYtOz%2B5l5Tg1ZU3C6GwEb4%2FzXd6wEDC3eA91WS%2BdPgX8abjyOEwUlK46Wmn3VKbTsCSdUYti3E8liFdxHqGqsFPhDC1bekwZyiFwpt77Lm0OGNc0Ku6fw3bdVFK3YOA7mg7ZMjU8TIyngchipNtrfJb7%2BR3E%2BXtiBaZOAWd3NpJxyFMw8gQWJhOO3DhKCaTQbjJ3p2CTKEPgo6JhNB8mjnJjbTbTPe%2FvZhcKwyLTIuoS0lgbKpyPBh%2FY7QqCHuNYE5Bo21O3egaBT8F2eeQG%2FEcJeLdwVLBkpOw2%2F%2FS8u9dCUulzjFXqawRxIxn5Hi1eWR0fqNDkGrKDUIAHt0iRaHF1NHkx4YEpmAcALiPMNih3Vgmx%2FpBOXoDgqhRssoxxIMM1FSZGGHr2Z%2F55Hef24YqLT1UtKoTe4xpEE7lu8XlDktwYyK%2FjekxwabiZkhLssV6JR62Xw%3D%3D",
+        "useProdEnv": false
+    },
+    "rotoSwid": {
+        "swId": "%7BA04B4CF5-819A-4472-943C-76904A6DB00A%7D",
+        "authToken": "AEApOiTlTJYMZVpmnrakbopkguCPgTYzrI0tS5YxEZt8hs1psu37nRa%2BVriGU4jTBJ79kBBSfib8R8v2NpLCjx%2FYjPiAdQWW40PLRdpT5nVJBhLuL23NmH92Tt%2F1jyO0PFNPbBwEjQ29w5Mw6IRKbnq5QV5BfL4uwgBQgnKp9BAyFxvwQzADO%2BY2YwUE%2BmkkreCOvim2gZVLN2g1rN5oPIwjABWAYuRdyMdtK2mFMh3655makXAtdElgT9cE%2FRNOBHg%2FoKUv933%2BbGZf7v1UexNlaHu4xS88xEaV14PAmYFKX9mdVXhS0EB7EqKCUpnHICUQ3f6Yhb%2BpbaZgfJI82nJKwe70eUha2Xq7y0AARS2drkmvpijDaYlvXZNwi7QExpZ8dqsB8%2FDySxvXqGBcM9reNFbLoUtjHZCBe5dcsLhlrPBjpTEZg5eEzTG3UaHGehxq1bdsM%2BKTQLEbTyxNrSS37m3DGvXFcp6gtZIceWuwSA%3D%3D",
+        "useProdEnv": false
+    },
+    "disneyLoginSwid": {
+        "swId": "%7B773717ED-03FD-407D-BA79-0189D0D1C0D4%7D",
+        "authToken": "",
+        "useProdEnv": true
+    },
+    "quintansSwid": {
+        "swId": "%7B94E5C32F-41BF-49C3-A863-3685A39D26AF%7D",
+        "authToken": "AEAeQLeSU9QhRpEcuyAl3WjrfHuIPFCBZV7TGdxC2AseTJ9lWLrc1Qmv15OmESKG23Wgy8X%2B0tnL75mip4EjWseEsIw1X4JiuTfhinWG63ajT1PN6deYNHHHBOlG2XwL8XJ2%2BOqUsoy8EEYvOdaZcsP6hZtX7ZXRmS2vK2hNOS5p4JNrc0fD%2FXibn4NvQ%2BkN6vba9Yq%2Fs%2BZ%2BW7wfQafuHwUNkAf32DkJkq8APiSU8BOxVEVj1ARXdVdfalfcbDEgvXfPwQ5UfGY0wgZVeJ%2BxfTcRxN3A%2B%2B%2FCjWEeY7wSYayjvJRTtCnMaZikujOnt%2BNw9%2Bk%3D",
+        "useProdEnv": true
+    },
+    "williamSwid": {
+        "swId": "%7B317F15E2-6846-42EF-A52F-B9C6355FEC15%7D",
+        "authToken": "AECanVEVV85Pftb1M1a7KHWjsne7h8gz4TfSFT/vH5d7/nw8Wby1lSe4/RuaJubG/NGgtxXeWJTmJPEska37Q1+rlMNPfJkvWG6LVpniUHxhVKBqvYgUj+1bWretyU+JuQMwzqZujbZTV12WJJ6VY7oMsOJUtHieJw3xJyZPr7sz7Qmcq88VjZ5/gg7r01RSDBhxCMY7gKk+J0vzKVYPzwpbEqeoCT6W/uzFpV3MmUGdZ8Qq45LBEpuRTe8XMsUbEej2LPTJ+e83VSpwLPK8c/TwIMOFgiF7s4T7n+varsM3/Q==",
+        "useProdEnv": true
+    }
+}

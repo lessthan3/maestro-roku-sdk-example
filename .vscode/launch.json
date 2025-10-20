@@ -1,0 +1,25 @@
+{
+
+    "configurations": [
+    {
+        "name": "Launch Test App",
+        "type": "brightscript",
+        "request": "launch",
+        "enableDebugProtocol": false,
+        "host": "${promptForHost}",
+        "password": "12345678",
+        "enableDebuggerAutoRecovery": false,
+        "injectRdbOnDeviceComponent": true,
+        "stopDebuggerOnAppExit": false,
+        "rootDir": "${workspaceFolder}/build",
+        "preLaunchTask": "Launch App",
+        "files": [
+            "manifest",
+            "source/**/*",
+            "components/**/*",
+            "images/**/*",
+            "fonts/**/*"
+        ]
+    }
+    ]
+}

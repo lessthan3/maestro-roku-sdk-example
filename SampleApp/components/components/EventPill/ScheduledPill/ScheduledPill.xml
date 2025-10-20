@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="ScheduledPill" extends="Group">
+    <interface>
+        <field id="eventTime" type="string" />
+    </interface>
+
+    <script type="text/brightscript" uri="ScheduledPill.brs" />
+
+    <children>
+        <Poster
+            id="backgroundPoster"
+            uri="pkg:/images/white_rounded.9.png"
+            height="35"
+            opacity="0.8"
+            blendColor="0x000000FF"/>
+        <Label
+            id="scheduleLabel"
+            translation="[10,2]"
+            color="0xFFFFFFFF"
+            maxLines="1"
+            height="35"
+            vertAlign="center">
+            <Font
+                role = "font"
+                uri="pkg://fonts/BentonSans-Medium.ttf"
+                size="16" />
+        </Label>
+    </children>
+
+</component>

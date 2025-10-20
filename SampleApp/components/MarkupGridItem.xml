@@ -1,0 +1,56 @@
+<component name = "MarkupGridItem" extends = "Group" >
+ 
+  <interface> 
+    <field id = "itemContent" type = "node" onChange = "showcontent"/>
+    <field id="focusPercent" type="float" onChange="showfocus" />
+    
+    
+  </interface>
+ 
+  <script type = "text/brightscript" >
+
+    <![CDATA[
+
+    sub init()
+      m.top.id = "markupgriditem"
+      m.itemmask = m.top.findNode("itemMask")
+      m.itemmask.font.size = 20
+    end sub
+
+    sub showcontent()
+      itemcontent = m.top.itemContent
+      m.itemmask.text = itemcontent.title
+    end sub
+
+    sub showfocus()
+     if m.top.focusPercent > 0.3 then
+         m.itemmask.font = "font:MediumBoldSystemFont"
+					m.itemmask.font.size = 25
+          
+				else
+        m.itemmask.font = "font:SmallestSystemFont"
+					m.itemmask.font.size = 20
+				end if
+    end sub
+
+    ]]>
+
+  </script>
+
+  <children >
+
+
+      <Label 
+        id = "itemMask" 
+        color = "#ffffff"
+        horizAlign = "center" 
+        vertAlign = "center"
+        width = "250" 
+        font = "font:SmallestSystemFont" 
+        height = "60" 
+      >
+      </Label>
+
+  </children>
+
+</component>

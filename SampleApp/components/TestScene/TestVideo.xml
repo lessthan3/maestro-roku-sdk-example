@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="TestVideo" extends="Group">
+    <interface>
+        <field id="destroySDK" type="boolean" onChange="onDestroySDK" />
+    </interface>
+
+    <script type="text/brightscript" uri="TestVideo.brs" />
+
+    <children>
+        <Video
+            id="video"
+            enableUI="false"
+            focusable="false"
+            enableTrickPlay="false"
+        />
+    </children>
+</component>

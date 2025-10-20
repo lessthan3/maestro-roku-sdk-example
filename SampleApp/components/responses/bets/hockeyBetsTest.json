@@ -1,0 +1,234 @@
+{
+  "entities": {
+    "teams": {
+      "6": {
+        "id": "6",
+        "uid": "s:70~l:90~t:6",
+        "guid": "c78600f3-cea1-f6e0-11cf-dfeefe1897ff",
+        "slug": "edmonton-oilers",
+        "abbreviation": "EDM",
+        "displayName": "Edmonton Oilers",
+        "shortDisplayName": "Oilers",
+        "name": "Oilers",
+        "nickname": "Edmonton",
+        "location": "Edmonton",
+        "color": "00205b",
+        "alternateColor": "ff4c00",
+        "displayOrder": "1",
+        "favored": false,
+        "favoredAtOpen": false
+      },
+      "26": {
+        "id": "26",
+        "uid": "s:70~l:90~t:26",
+        "guid": "195561c3-b7d9-935e-0623-8f0a00357080",
+        "slug": "florida-panthers",
+        "abbreviation": "FLA",
+        "displayName": "Florida Panthers",
+        "shortDisplayName": "Panthers",
+        "name": "Panthers",
+        "nickname": "Florida",
+        "location": "Florida",
+        "color": "e51937",
+        "alternateColor": "002d62",
+        "displayOrder": "2",
+        "favored": true,
+        "favoredAtOpen": true
+      }
+    }
+  },
+  "event": {
+    "id": "401777458",
+    "sport": "hockey",
+    "league": "nhl",
+    "date": "2025-06-13T00:00Z",
+    "gameState": "in",
+    "bets": {
+      "odds": [
+        {
+          "displayName": "Moneyline",
+          "abbreviation": "ML",
+          "type": "moneyline",
+          "state": "close",
+          "values": [
+            {
+              "odds": "-140",
+              "team": "26",
+              "type": "home"
+            },
+            {
+              "odds": "+120",
+              "team": "6",
+              "type": "away"
+            }
+          ]
+        },
+        {
+          "displayName": "Moneyline",
+          "abbreviation": "ML",
+          "type": "moneyline",
+          "state": "open",
+          "values": [
+            {
+              "odds": "-145",
+              "team": "26",
+              "type": "home"
+            },
+            {
+              "odds": "+125",
+              "team": "6",
+              "type": "away"
+            }
+          ]
+        },
+        {
+          "displayName": "Moneyline",
+          "abbreviation": "ML",
+          "type": "moneyline",
+          "state": "live",
+          "values": [
+            {
+              "odds": "-120",
+              "team": "26",
+              "type": "home"
+            },
+            {
+              "odds": "-110",
+              "team": "6",
+              "type": "away"
+            }
+          ]
+        },
+        {
+          "displayName": "Total Goals",
+          "abbreviation": "Total",
+          "type": "total",
+          "state": "close",
+          "values": [
+            {
+              "line": "o6.5",
+              "odds": "+120",
+              "type": "over"
+            },
+            {
+              "line": "u6.5",
+              "odds": "-140",
+              "type": "under"
+            }
+          ]
+        },
+        {
+          "displayName": "Total Goals",
+          "abbreviation": "Total",
+          "type": "total",
+          "state": "open",
+          "values": [
+            {
+              "line": "o6.5",
+              "odds": "EVEN",
+              "type": "over"
+            },
+            {
+              "line": "u6.5",
+              "odds": "-120",
+              "type": "under"
+            }
+          ]
+        },
+        {
+          "displayName": "Total Goals",
+          "abbreviation": "Total",
+          "type": "total",
+          "state": "live",
+          "values": [
+            {
+              "line": "o8.5",
+              "odds": "+115",
+              "type": "over"
+            },
+            {
+              "line": "u8.5",
+              "odds": "-150",
+              "type": "under"
+            }
+          ]
+        },
+        {
+          "displayName": "Spread",
+          "abbreviation": "Spread",
+          "type": "pointSpread",
+          "state": "close",
+          "values": [
+            {
+              "line": "-1.5",
+              "odds": "+170",
+              "team": "26",
+              "type": "home"
+            },
+            {
+              "line": "+1.5",
+              "odds": "-220",
+              "team": "6",
+              "type": "away"
+            }
+          ]
+        },
+        {
+          "displayName": "Spread",
+          "abbreviation": "Spread",
+          "type": "pointSpread",
+          "state": "open",
+          "values": [
+            {
+              "line": "-1.5",
+              "odds": "+165",
+              "team": "26",
+              "type": "home"
+            },
+            {
+              "line": "+1.5",
+              "odds": "-200",
+              "team": "6",
+              "type": "away"
+            }
+          ]
+        },
+        {
+          "displayName": "Spread",
+          "abbreviation": "Spread",
+          "type": "pointSpread",
+          "state": "live",
+          "values": [
+            {
+              "line": "+1.5",
+              "odds": "-1600",
+              "team": "26",
+              "type": "home"
+            },
+            {
+              "line": "-1.5",
+              "odds": "+600",
+              "team": "6",
+              "type": "away"
+            }
+          ]
+        }
+      ]
+    },
+    "links": [
+      {
+        "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/hockey/organization/united-states/competition/nhl/event/3575df03-91e4-40d9-ac39-2f8686473795"
+      }
+    ]
+  },
+  "promotion": {
+    "title": "New Players",
+    "description": "Bet $10, Get $100 in Bonus Bets. Offer not valid in NY.",
+    "logo": "https://www.espn.com/redesign/assets/img/ictv/logo_qr/1x/logo_qr_bet.png",
+    "qrCode": "https://stitcher.espn.com/qr-code/espnbet.png?width=300&height=300&padding=20&url=https%3A%2F%2Fespnbet.app.link%2Fintegrations%3F%25243p%3Da_espn%26clr%3Despnbettingintegration%26%2524canonical_url%3D%252Fsport%252Fhockey%252Forganization%252Funited-states%252Fcompetition%252Fnhl%252Fevent%252F3575df03-91e4-40d9-ac39-2f8686473795%26channel%3Despn-ctv%26campaign%3Dbetting-integrations",
+    "backgroundImage": "https://www.espn.com/redesign/assets/img/ictv/bkg_qr_bet.png"
+  },
+  "disclaimers": {
+    "gambling": "Odds by ESPN BET; 21+. Gambling Problem? Call 1-800-GAMBLER"
+  }
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="TestScene" extends="Scene">
+     <interface>
+    </interface>
+
+    <script type="text/brightscript" uri="pkg:/components/TestScene/TestScene.brs" />
+
+    <children>
+        <Rectangle width="1920" height="1080" color="0x101113FF" />
+        <RowList
+            id="TestCasesRowList"
+            translation="[50, 440]"
+            itemComponentName="TestCardItem"
+            itemSize="[ 1920, 350 ]"
+            rowItemSize="[ [400, 250] ]"
+            rowItemSpacing="[ [20, 0]]"
+            drawFocusFeedback="true"
+            showRowLabel="[true]"
+            numRows= "2"
+            focusXOffset="20"
+            focusBitmapUri="pkg:/images/border_r8.9.png"/>
+    </children>
+</component>

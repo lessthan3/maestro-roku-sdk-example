@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="LivePill" extends="Group">
+
+    <children>
+        <Poster
+            id="livePillPoster"
+            uri="pkg:/images/live_pill.png"
+            height="36"
+            width="91" />
+    </children>
+
+</component>

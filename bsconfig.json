@@ -1,0 +1,24 @@
+{
+    "rootDir": "",
+    "stagingDir": "build",
+    "host": "192.168.4.27",
+    "username": "rokudev",
+    "password": "12345678",
+    "createPackage": false,
+    "sourceMap": true,
+    "retainStagingDir": true,
+    "allowBrighterScriptInBrightScript": true,
+    "diagnosticFilters": [ { "src": "", "codes": [ 1001, 1004, 1104, 1013, 1067, 1115 ] } ],
+    "files": [
+        "manifest",
+        "source/**/*",
+        "components/**/*",
+        "images/**/*",
+        "fonts/**/*",
+        {"src": "SampleApp/manifest", "dest": "manifest"},
+        {"src": "SampleApp/components/**/*", "dest": "components"},
+        {"src": "SampleApp/source/**/*", "dest": "source"},
+        {"src": "SampleApp/fonts/**/*", "dest": "fonts"},
+        {"src": "SampleApp/images/**/*", "dest": "images"}
+    ]
+}

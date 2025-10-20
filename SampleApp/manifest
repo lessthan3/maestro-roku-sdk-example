@@ -1,0 +1,25 @@
+title=Maestro Example App
+major_version=1
+minor_version=0
+build_version=0
+mm_icon_focus_fhd=pkg:/sampleAppImages/app_icons_fhd.png
+mm_icon_focus_hd=pkg:/sampleAppImages/app_icons_hd.png
+mm_icon_focus_sd=pkg:/sampleAppImages/app_icons_sd.png
+
+splash_screen_sd=pkg:/sampleAppImages/splash_sd.png
+splash_screen_hd=pkg:/sampleAppImages/splash_hd.png
+splash_screen_fhd=pkg:/sampleAppImages/splash_fhd.png
+splash_color=#1B1E26
+splash_min_time=2000
+
+#Resolution
+ui_resolutions=fhd
+uri_resolution_autosub=$$res$$,sd,hd,fhd
+
+
+#Conditionals
+bs_const=enable_http_logs=true
+is_dev_mode=true
+
+rsg_version=1.2
+supports_input_launch=1
