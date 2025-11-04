@@ -7,6 +7,9 @@ sub init()
     m.settingConfig.observeField("itemSelected", "onItemSelected")
     playVideo()
     initSDK()
+    dateTIme = createObject("roDateTime")
+    miliseconds = (dateTIme.AsSecondsLong() * 1000) + dateTIme.GetMilliseconds()
+    m.playerTimecode = miliseconds
 end sub
 function playVideo()
     videoContent = createObject("RoSGNode", "ContentNode")
@@ -118,4 +121,10 @@ sub onHandleLoadingSceneAction(event)
     maxVideo()
     m.settingConfig.setFocus(true)
   end if
+end sub
+
+sub onPositionChanged(event)
+  position = event.getData()
+  playerTimecode = m.playerTimecode + Int(position * 1000)
+  if m.lib <> invalid then m.lib.callFunc("onPlayerTimecodeUpdated", playerTimecode)
 end sub
