@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="TestHarness" extends="group">
+  <interface>
+    <field id="MaestroKit" type="node" />
+    <field id="selectedVersion" type="string" />
+    <field id="automationLog" type="string"/>
+  </interface>
+  <script type="text/brightscript" uri="pkg:/components/TestHarness.brs" />
+
+  <children>
+      <Rectangle width="1100" height="1920" color="#000000B3" />
+    <Label id="hintText" color="#ffffff" horizAlign="left" vertAlign="left" width="568" text=""
+      translation="[20,20]">
+      <Font role="font" uri="pkg://fonts/BentonSans-Medium.ttf" size="25" />
+    </Label>
+
+    <Label  color="#ffffff" horizAlign="left" vertAlign="left" width="700" text="Dev Panel"
+      translation="[0,20]">
+      <Font role="font" uri="pkg://fonts/BentonSans-Medium.ttf" size="25" />
+    </Label>
+
+    <MarkupGrid
+      id="settingConfig"
+      font="font:MediumSystemFont"
+      focusedFont="font:MediumBoldSystemFont"
+      numColumns="4"
+      numRows="5"
+      itemSize="[250,48]"
+      itemSpacing="[10, 10 ]"
+      translation="[20,80]"
+      vertFocusAnimationStyle="floatingFocus"
+      itemComponentName="MarkupGridItem">
+      <ContentNode id="menu" role="content">
+        <ContentNode title="ShowPanel" />
+        <ContentNode title="HidePanel" />
+      </ContentNode>
+    </MarkupGrid>
+
+    <LayoutGroup layoutDirection="horiz" translation="[0,400]"  >
+      <!-- SDK Version -->
+    </LayoutGroup>
+     <Group
+            id="logGroup"
+            translation="[0, 600]">
+            <Rectangle
+                id = "logBackground"
+                color="0xAAAAAAAA"
+                width="1100"
+                height="470" />
+            <Label
+                id="logTitleLable"
+                width="1000"
+                translation="[20, 20]"
+                />
+            <Poster
+                width="1000"
+                height="400"
+                translation="[50, 70]"
+                uri="pkg:/images/border_r8.9.png" />
+            <LayoutGroup
+                id="logsGroup"
+                translation="[60, 80]" />
+        </Group>
+
+
+  </children>
+</component>

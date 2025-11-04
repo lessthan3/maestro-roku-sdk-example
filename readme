@@ -1,1 +1,7 @@
+Please view the open pull requests to see the different levels of SDK integration.
+
+Ensure the password in the launch.json file aligns with your roku device.
+
 Install the brightscript extension https://marketplace.visualstudio.com/items?itemName=RokuCommunity.brightscript
+
+Use the "launch test app" option in the run and debug tab on vscode to build the app and send to your Roku device.
