@@ -13,5 +13,22 @@
             focusable="false"
             enableTrickPlay="false"
         />
+        <Rectangle width="600" height="200" color="#000000B3" />
+        <MarkupGrid
+            id="settingConfig"
+            font="font:MediumSystemFont"
+            focusedFont="font:MediumBoldSystemFont"
+            numColumns="4"
+            numRows="5"
+            itemSize="[250,48]"
+            itemSpacing="[10, 10 ]"
+            translation="[20,80]"
+            vertFocusAnimationStyle="floatingFocus"
+            itemComponentName="MarkupGridItem">
+            <ContentNode id="menu" role="content">
+                <ContentNode title="ShowPanel" />
+                <ContentNode title="HidePanel" />
+            </ContentNode>
+        </MarkupGrid>
     </children>
 </component>
