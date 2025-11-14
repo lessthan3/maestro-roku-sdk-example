@@ -17,28 +17,6 @@ function playVideo()
     m.video.control = "play"
 end function
 
-function minVideo()
-    m.video.width = 1184
-    m.video.height = 666
-    m.video.translation = [50, 200]
-end function
-
-function maxVideo()
-    m.video.width = 1920
-    m.video.height = 1080
-    m.video.translation = [0, 0]
-end function
-
-sub onShowPanel(event)
-    isPanelShown =  event.getData()
-    if isPanelShown
-        minVideo()
-        m.lib.callFunc("setPanelFocus")
-    else
-         m.settingConfig.setFocus(true)
-    end if
-end sub
-
 function onKeyEvent(key as string, press as boolean) as boolean
     handled = false
 
@@ -55,6 +33,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
     return handled
 end function
 
+'<Step 1>
 sub initSDK()
     'Init a component library and set your desired version number
     m.componentLibrary = createObject("rosgNode", "ComponentLibrary")
@@ -73,7 +52,9 @@ function onLibraryLoadStatusChanged()
     finishSetup()
   end if
 end function
+'<Step 1>
 
+'<Step 2>
 sub finishSetup()
     m.lib.observeField("showPanel", "onShowPanel")
     'configure the SDK with your siteID and pageID, these ID's can be found on your maestro site in the browser
@@ -85,17 +66,9 @@ sub finishSetup()
     'set focus to the buttons or your custom UI
     m.settingConfig.setFocus(true)
 end sub
+'<Step 2>
 
-sub cleanup()
-    maxVideo()
-    m.top.removeChild(m.lib )
-    m.lib = invalid
-end sub
-
-sub onDestroySDK()
-    m.lib.callFunc("destroySDK")
-end sub
-
+'<Step 3>
 sub onItemSelected(event)
   index = event.getData()
   action = m.settingConfig.content.getChild(index)?.title
@@ -119,3 +92,38 @@ sub onHandleLoadingSceneAction(event)
     m.settingConfig.setFocus(true)
   end if
 end sub
+
+function minVideo()
+    m.video.width = 1184
+    m.video.height = 666
+    m.video.translation = [50, 200]
+end function
+
+function maxVideo()
+    m.video.width = 1920
+    m.video.height = 1080
+    m.video.translation = [0, 0]
+end function
+
+sub onShowPanel(event)
+    isPanelShown =  event.getData()
+    if isPanelShown
+        minVideo()
+        m.lib.callFunc("setPanelFocus")
+    else
+         m.settingConfig.setFocus(true)
+    end if
+end sub
+'<Step 3/>
+
+'<Step 4>
+sub cleanup()
+    maxVideo()
+    m.top.removeChild(m.lib )
+    m.lib = invalid
+end sub
+
+sub onDestroySDK()
+    m.lib.callFunc("destroySDK")
+end sub
+'<Step 4/>

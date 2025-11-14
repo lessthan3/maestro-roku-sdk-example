@@ -1,7 +1,19 @@
-Please view the open pull requests to see the different levels of SDK integration.
+Installing the Maestro SDK
 
-Ensure the password in the launch.json file aligns with your roku device.
+The main branch has a simple Roku application simulating your Roku application.
+Checkout the "Hello-World" branch and open PR https://github.com/lessthan3/maestro-roku-sdk-example/pull/1
+The PR will highlight the diff showing whats required to implement the SDK at the minimum level.
 
-Install the brightscript extension https://marketplace.visualstudio.com/items?itemName=RokuCommunity.brightscript
+Step 1
+Create a new component library and fetch the SDK
+Define the handler for when the library is fetched and ready for use.
 
-Use the "launch test app" option in the run and debug tab on vscode to build the app and send to your Roku device.
+Step 2
+Add desired observers and configure the SDK for your site and page.
+Site and Page ID's can be found on your Maestro site.
+
+Step 3
+Add handlers to your custom UI to show and hide the panel using it's "showPanel" interface.
+
+Step 4
+Ensure to destroy the SDK when exiting the view session. This will ensure proper analytics tracking and node destruction.
