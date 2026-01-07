@@ -59,8 +59,8 @@ sub finishSetup()
     m.lib.observeField("showPanel", "onShowPanel")
     'configure the SDK with your siteID and pageID, these ID's can be found on your maestro site in the browser
     m.lib.config ={
-        "siteID": "69388ee52b46b639897261f1", '<-- TODO replace with your siteID.
-        "pageId": "69388ee52b46b63989726228", '<-- TODO replace with a pageID on your site, later to be dynamic based on the video you select
+        "siteID": "695c05610f99e7584a1b7407", '<-- TODO replace with your siteID.
+        "pageId": "695c05610f99e7584a1b743e", '<-- TODO replace with a pageID on your site, later to be dynamic based on the video you select
         "useProdEnv": false
     }
     'set focus to the buttons or your custom UI
