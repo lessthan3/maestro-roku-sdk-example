@@ -1,25 +1,25 @@
 {
-
-    "configurations": [
+  "configurations": [
     {
-        "name": "Launch Test App",
-        "type": "brightscript",
-        "request": "launch",
-        "enableDebugProtocol": false,
-        "host": "${promptForHost}",
-        "password": "12345678",
-        "enableDebuggerAutoRecovery": false,
-        "injectRdbOnDeviceComponent": true,
-        "stopDebuggerOnAppExit": false,
-        "rootDir": "${workspaceFolder}/build",
-        "preLaunchTask": "Launch App",
-        "files": [
-            "manifest",
-            "source/**/*",
-            "components/**/*",
-            "images/**/*",
-            "fonts/**/*"
-        ]
+      "name": "Launch Test App",
+      "type": "brightscript",
+      "request": "launch",
+      "password": "1234",
+      "enableDebugProtocol": true,
+      "enableDebuggerAutoRecovery": false,
+      "injectRdbOnDeviceComponent": false,
+      "stopDebuggerOnAppExit": false,
+      "rootDir": "${workspaceFolder}/build",
+      "preLaunchTask": "Launch App",
+      "files": ["manifest", "source/**/*", "components/**/*", "images/**/*", "fonts/**/*"],
+      "componentLibrariesPort": 8888,
+      "componentLibraries": [
+        {
+          "rootDir": "${workspaceFolder}/sdk",
+          "outFile": "sdk.zip",
+          "files": ["manifest", "source/**/*.*", "components/**/*.*", "images/**/*.*", "assets/**/*.*"]
+        }
+      ]
     }
-    ]
+  ]
 }
