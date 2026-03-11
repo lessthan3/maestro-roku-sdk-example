@@ -37,7 +37,7 @@ end function
 sub initSDK()
     'Init a component library and set your desired version number
     m.componentLibrary = createObject("rosgNode", "ComponentLibrary")
-    m.componentLibrary.uri = "https://roku-sdk.us-central1-master.gcp.maestro.io/4.1.16/maestrokit.zip"
+    m.componentLibrary.uri = "https://roku-sdk.us-central1-master.gcp.maestro.io/4.1.16/maestrokit.pkg"
     m.componentLibrary.observeField("loadStatus", "onLibraryLoadStatusChanged")
 end sub
 
