@@ -1,19 +1,305 @@
 Installing the Maestro SDK
 
-The main branch has a simple Roku application simulating your Roku application.
-Checkout the "Hello-World" branch and open PR https://github.com/lessthan3/maestro-roku-sdk-example/pull/1
-The PR will highlight the diff showing whats required to implement the SDK at the minimum level.
+Integrate the MaestroKit Roku SDK into this Roku channel and get it rendering.
 
-Step 1
-Create a new component library and fetch the SDK
-Define the handler for when the library is fetched and ready for use.
+Everything you need is below — do not search the web or guess at API names.
+Several steps contain non-obvious traps that are called out as CRITICAL. The
+failures they describe are silent: the integration looks like it works.
 
-Step 2
-Add desired observers and configure the SDK for your site and page.
-Site and Page ID's can be found on your Maestro site.
+## Prerequisites
 
-Step 3
-Add handlers to your custom UI to show and hide the panel using it's "showPanel" interface.
+You need the device IP and the developer password for sideloading. Ask me for
+both if they are not already in the environment or a launch config — do not
+assume the "rokudev" default.
 
-Step 4
-Ensure to destroy the SDK when exiting the view session. This will ensure proper analytics tracking and node destruction.
+## What the SDK is
+
+A remote Roku ComponentLibrary. You load it by URL, wait for it, then create a
+node from it. Nothing is installed or vendored into this repo.
+
+  Library URL:  https://roku-sdk.us-central1-master.gcp.maestro.io/4.1.16/maestrokit.pkg
+  Library name: MaestroPanelLib
+  Node type:    MaestroPanelLib:MaestroPanel
+
+Write plain BrightScript (.brs) + SceneGraph XML. This SDK is consumed as a
+prebuilt library, so no BrighterScript toolchain is required.
+
+Before you start: add a print to every observer callback you register, tagged
+so you can grep it (e.g. "[maestro] loadStatus = "). I will ask you for the
+ordered sequence of values at the end, and that is not recoverable after the
+fact.
+
+## Steps
+
+1. In the component that owns your video view, create the ComponentLibrary and
+   observe its loadStatus:
+
+     m.componentLibrary = createObject("roSGNode", "ComponentLibrary")
+     m.componentLibrary.observeField("loadStatus", "onLibraryLoadStatusChanged")
+     m.componentLibrary.uri = "https://roku-sdk.us-central1-master.gcp.maestro.io/4.1.16/maestrokit.pkg"
+
+   CRITICAL: register the observer BEFORE setting uri. Assigning uri starts the
+   download, so the reverse order registers too late to ever see the "loading"
+   transition — you will only ever observe "ready". Some published Maestro
+   samples have these two lines the other way round; they are wrong.
+
+   loadStatus is one of "loading", "ready", "failed". The library node does not
+   need to be appended to the scene.
+
+   A "failed" on the first launch after a sideload is usually transient
+   (network congestion, not a code path). Retry once before concluding the
+   load path is broken.
+
+2. When loadStatus is "ready", create the panel, register observers, then
+   append it to the scene:
+
+     m.lib = createObject("roSGNode", "MaestroPanelLib:MaestroPanel")
+     m.lib.observeField("showPanel", "onShowPanel")
+     m.lib.observeField("handleLoadingSceneAction", "onHandleLoadingSceneAction")
+     m.lib.observeField("focusedTabItem", "onFocusedTabItem")
+     m.lib.observeField("trackingEvent", "onTrackingEvent")
+     m.lib.observeField("userRequestedLogin", "onUserRequestedLogin")
+     m.lib.observeField("errorInformation", "onErrorInformation")
+     m.top.appendChild(m.lib)
+
+   CRITICAL: append the panel to the scene BEFORE setting config. Setting
+   config kicks off network requests that require the node to already be in the
+   scene graph. Getting this backwards is the most common integration failure.
+
+   Register every observer here, before step 3. The SDK validates config
+   synchronously during the `m.lib.config = {...}` assignment, so
+   errorInformation fires before the next line of your own code runs. Anything
+   you want to correlate those callbacks against — a timer, a log prefix, a
+   start timestamp — must exist before the config line, not after it.
+
+3. Size and configure it. Use these demo credentials verbatim — they point at a
+   live Maestro demo page and need no account:
+
+     m.lib.width = 1280
+     m.lib.height = 720
+     m.lib.config = {
+       siteID: "69b2f133e8117ec6536d59a1"
+       pageID: "6aa966d669342216ada5a4b8"
+       useProdEnv: false
+     }
+
+   All three values are load-bearing. useProdEnv: false is not a debug nicety —
+   it is half the condition that renders the Hello World screen. Do not change
+   it to true while you are still verifying.
+
+   To point this at real content afterwards, replace siteID and pageID with the
+   ids from your own Maestro site — both appear in the browser URL when you open
+   it. With your own site you get your configured panels instead of the Hello
+   World screen, which is the normal end state; Hello World is the smoke test,
+   not the destination. Everything else in this integration stays the same.
+
+   Config accepts more than these three keys — authToken and swid for an
+   authenticated user, eventID instead of pageID for a live or VOD event. Each
+   panel reads what it needs from this object, so pass what your panels require.
+
+4. Wire show. The panel is hidden until you ask for it:
+
+     m.lib.showPanel = true
+     m.lib.callFunc("setPanelFocus")
+
+   Bind this to a key or button that already exists in this app — pick the most
+   natural trigger in the current code rather than adding new chrome.
+
+5. Wire hide and focus return. This step has two traps; both are silent.
+
+   The SDK's documented signal for return-focus is handleLoadingSceneAction.
+   Implement it, because real panels do emit it:
+
+     sub onHandleLoadingSceneAction(event)
+       if event.getData() = "returnFocus"
+         focusChannelUI()
+       end if
+     end sub
+
+   TRAP 1 — with the demo credentials above it never fires. You land on the
+   HelloWorld fallback screen, and in this SDK build "returnFocus" is only
+   emitted when an overlay releases focus, never when a user backs out of a
+   panel. Back will bubble past the panel to your scene and exit the channel.
+   So handle Back yourself as well:
+
+     if key = "back" and m.lib <> invalid and m.lib.showPanel
+       m.lib.showPanel = false
+       return true
+     end if
+
+   TRAP 2 — CRITICAL: the showPanel observer fires inline, while the SDK still
+   holds focus, so setFocus called from inside it silently does nothing.
+   Two things are required:
+
+     - Defer the focus restore by a frame (a 0.05s one-shot Timer).
+     - Focus a concrete focusable node in your own UI. setFocus on the Scene
+       itself will NOT reclaim focus out of the panel's subtree.
+
+   Get either wrong and the drawer still closes correctly — it just swallows
+   the next OK key-down and never reopens. It looks like it works. Verify by
+   printing hasFocus on your node and isInFocusChain on the panel after the
+   restore; you want true and false respectively.
+
+6. Shrink the video out from behind the panel. The drawer opens on the right,
+   so a full-screen video sits underneath it. Add two helpers and call them from
+   the showPanel observer:
+
+     sub minVideo()
+       m.video.translation = [50, 200]
+       m.video.width = 1184
+       m.video.height = 666
+     end sub
+
+     sub maxVideo()
+       m.video.translation = [0, 0]
+       m.video.width = 1920
+       m.video.height = 1080
+     end sub
+
+   Call minVideo() in the branch of onShowPanel where the panel became visible
+   and maxVideo() in the other branch, next to the focus handling from step 5.
+   Also call maxVideo() during teardown.
+
+   Those numbers are the values used for the ESPN and Fox panels. Panel width is
+   client-specific — Paramount's panel is wider and needs [0, 137] / 1436x807 —
+   so treat them as a starting point, not a constant. There is no SDK field that
+   reports the drawer's width; the host is expected to know it.
+
+   A Video node honours width/height/translation on its own; you do not need to
+   change any node attribute to make this work. Measured on device: geometry is
+   applied exactly, to the pixel, with enableUI at its default of true, on a
+   node that never takes focus.
+
+   If a node is actively rendering Roku's built-in player UI it may behave
+   differently — enableUI only draws that UI while the node has focus, so this
+   would only apply to a player the viewer can focus. That case has not been
+   measured. Do not pre-emptively change enableUI to work around it. If the
+   geometry genuinely does not apply on this app, say so and report whether the
+   video node ever receives focus, rather than changing attributes to chase it.
+
+   Separately, and not as a fix: the SDK's own test harness declares its Video
+   node enableUI="false" focusable="false" enableTrickPlay="false", because it
+   draws its own controls. That is the normal shape for a production client,
+   but it is a product decision about playback controls, not a requirement for
+   resizing. Leave this app's attributes alone unless asked.
+
+   Snapping the geometry is fine and is what the SDK's own docs show. If you
+   want it to look deliberate, drive translation/width/height through an
+   Animation with a Vector2DFieldInterpolator instead — that is what the
+   harness does, over 0.3s with an outQuad ease.
+
+7. Push the player timecode. The SDK gates overlays on it, so without this the
+   Hello World overlay never appears:
+
+     ' On the video's position tick:
+     sub onVideoPosition(event)
+       t = createObject("roDateTime")
+       ms& = (t.AsSecondsLong() * 1000) + t.GetMilliseconds()
+       m.lib.callFunc("onPlayerTimeCodeUpdated", ms&)
+     end sub
+
+   Observe the Video node's "position" field to drive this. The value must be
+   an epoch-milliseconds wall clock as a LongInteger (&), not seconds-into-
+   stream. For this demo, current wall clock is correct. (A real client
+   integration would push the wall-clock time the current frame corresponds to:
+   broadcast-start-epoch + position * 1000.)
+
+8. Tear down when playback ends and when the user leaves the video view — this
+   flushes analytics and destroys nodes:
+
+     m.lib.callFunc("destroySDK")
+     m.top.removeChild(m.lib)
+     m.lib = invalid
+     m.componentLibrary = invalid
+
+   If this channel has no exit path, observe the Video node's "state" field and
+   tear down on "finished" and "error".
+
+   Stub the remaining observer callbacks (onFocusedTabItem, onTrackingEvent,
+   onUserRequestedLogin, onErrorInformation) as print-only subs. They must exist or observeField
+   fails at runtime, but nothing is required of them here.
+
+   Print the payload in onErrorInformation rather than ignoring it — that is
+   where the SDK reports a rejected config, and it is the first thing to check
+   if nothing renders.
+
+   Note that onFocusedTabItem is the one of the other three that actually fires —
+   on every panel show, within ~15ms of showPanel = true, because the SDK
+   focuses its nav tab. onTrackingEvent and onUserRequestedLogin stay silent in
+   this scenario. If you are using callback silence to judge whether the SDK is
+   alive, onFocusedTabItem is the one that talks.
+
+## Beyond this integration
+
+Not needed for Hello World, but this is the surface you will reach for next, so
+do not invent your own mechanisms for them: setDataToPanel (push data into a
+panel), openToPanel (open a specific tab), userSettings (per-panel toggles such
+as hide_panel and disable_overlays), displayQRCodes, and onPanelEvent /
+userViewedPanel (panel interaction callbacks).
+
+## Constraints
+
+- Use ONLY the fields and functions named above. Do not add `failedClipId`,
+  `showLoading`, or `authenticateUser` — they appear in some older Maestro docs
+  and do not exist in the SDK. Referencing them will not error; they will just
+  silently never fire.
+- Do not restructure this app's existing focus or key handling, or its video
+  layout, beyond what steps 4-8 require.
+
+## Expected log noise — do NOT debug these
+
+On a fully successful run you will see, and should ignore:
+
+    BRIGHTSCRIPT: ERROR: roSGNode: Failed to create roSGNode with type chat
+    Warnings occurred while creating XML component HelloWorld
+
+The first is the point of the exercise: the demo page is configured with a
+panel this generic build does not contain, which is what triggers the Hello
+World screen. It surfaces as a BRIGHTSCRIPT: ERROR but is expected.
+
+## Then verify
+
+Sideload and open the view that owns the panel.
+
+Expected:
+  - A Maestro drawer opens over your content and takes focus, showing
+    "HELLO, WORLD! / Panel component has been installed correctly", listing
+    "Chat" as an unsupported panel.
+  - 10-15 seconds after the panel builds, a Hello World overlay appears
+    ("Hello, World!" / "Successful SDK integration"), stays up for about 10
+    seconds, then dismisses itself. This requires step 7.
+  - The overlay is independent of the drawer: it appears whether the drawer is
+    open or closed. Do not sit with the drawer open waiting for it — that is
+    the wrong layer.
+  - Back closes the drawer and returns focus to your UI, and OK reopens it.
+    Test open -> back -> reopen -> back, not just one open.
+  - The video shrinks to the left of the drawer when it opens and returns to
+    full screen when it closes. Confirm this by looking at the screen. A log
+    line only proves the fields were assigned, so it cannot confirm the video
+    moved. A dev screenshot can: it does not capture video *content*, but it
+    does capture the video *window* as a black rectangle against the SDK's
+    background, measurable to the pixel. Report the measured rect in both
+    states.
+
+How to capture evidence:
+  - Screenshot: POST to /plugin_inspect with mysubmit=Screenshot (digest auth,
+    user rokudev), then GET /pkgs/dev.jpg.
+  - The dev screenshot does NOT capture the video plane. A black background is
+    expected and is not a failure.
+  - Port 8085 accepts a single connection and sideloading drops it. If an IDE
+    debugger holds it you will lose the log lines you were asked to report —
+    attach a reconnecting logger before you deploy.
+
+Then report:
+  - the loadStatus values you observed, in order
+  - whether the panel appeared, took focus, and returned focus on back, and
+    whether it reopened afterwards
+  - whether the overlay appeared, and how long after the panel built
+  - what onErrorInformation reported. With the demo config you WILL see
+    "No authToken set in config" and "No SWID set in config" on every launch —
+    the demo page is unauthenticated and these are informational, not failures.
+    "No siteId set in config" is the real failure signal; that one should not
+    appear.
+
+Do not report success unless you have actually seen the panel and the overlay
+render on a device.
