@@ -17,7 +17,7 @@ assume the "rokudev" default.
 A remote Roku ComponentLibrary. You load it by URL, wait for it, then create a
 node from it. Nothing is installed or vendored into this repo.
 
-  Library URL:  https://roku-sdk.us-central1-master.gcp.maestro.io/4.1.16/maestrokit.pkg
+  Library URL:  https://roku-sdk.us-central1-master.gcp.maestro.io/4.5.9/maestrokit.pkg
   Library name: MaestroPanelLib
   Node type:    MaestroPanelLib:MaestroPanel
 
@@ -36,7 +36,7 @@ fact.
 
      m.componentLibrary = createObject("roSGNode", "ComponentLibrary")
      m.componentLibrary.observeField("loadStatus", "onLibraryLoadStatusChanged")
-     m.componentLibrary.uri = "https://roku-sdk.us-central1-master.gcp.maestro.io/4.1.16/maestrokit.pkg"
+     m.componentLibrary.uri = "https://roku-sdk.us-central1-master.gcp.maestro.io/4.5.9/maestrokit.pkg"
 
    CRITICAL: register the observer BEFORE setting uri. Assigning uri starts the
    download, so the reverse order registers too late to ever see the "loading"
