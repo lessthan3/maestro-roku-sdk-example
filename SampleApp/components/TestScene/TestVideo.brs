@@ -49,6 +49,7 @@ function onLibraryLoadStatusChanged()
     m.lib.observeField("handleLoadingSceneAction", "onHandleLoadingSceneAction")
     'add panel to your scene
     m.top.appendChild(m.lib)
+    addCustomPanel()
     finishSetup()
   end if
 end function
@@ -121,9 +122,40 @@ sub cleanup()
     maxVideo()
     m.top.removeChild(m.lib )
     m.lib = invalid
+    m.statsPanel = invalid
 end sub
 
 sub onDestroySDK()
     m.lib.callFunc("destroySDK")
 end sub
 '<Step 4/>
+
+'<Step 5>
+' A panel of your own in the SDK's tab strip: a component that extends MaestroCustomPanel
+' (components/maestro/MaestroCustomPanel, copied from the SDK) handed to the SDK once its
+' MaestroPanel is in the scene. Before or after config both work: the SDK keeps it until
+' the panels build. The panel's beacons come back on trackImpression / trackAction like
+' the SDK's own.
+sub addCustomPanel()
+    m.lib.observeField("trackAction", "onTrackAction")
+    m.lib.observeField("trackImpression", "onTrackImpression")
+
+    m.statsPanel = createObject("roSGNode", "ExampleStatsPanel")
+    accepted = m.lib.callFunc("addPanelToEvent", {
+        node: m.statsPanel
+        panelType: m.statsPanel.panelType
+        title: m.statsPanel.title
+        iconUri: m.statsPanel.callFunc("stagedIconUri") ' a pkg:/ icon copied to tmp:/, where the SDK can load it
+        order: m.statsPanel.order
+    })
+    print "[maestro] addPanelToEvent accepted = "; accepted
+end sub
+
+sub onTrackAction(event)
+    print "[maestro] trackAction "; FormatJson(event.getData())
+end sub
+
+sub onTrackImpression(event)
+    print "[maestro] trackImpression "; FormatJson(event.getData())
+end sub
+'<Step 5/>
