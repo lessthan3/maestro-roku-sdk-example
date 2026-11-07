@@ -18,6 +18,20 @@ Add handlers to your custom UI to show and hide the panel using it's "showPanel"
 Step 4
 Ensure to destroy the SDK when exiting the view session. This will ensure proper analytics tracking and node destruction.
 
+Step 5 (optional) - a panel of your own in the SDK's tabs
+Copy SampleApp/components/maestro/MaestroCustomPanel/ into your channel as it is (it is published from the
+SDK; MaestroCustomPanel.version says which SDK it came from, MaestroCustomPanel.md is the contract).
+Write a component that extends MaestroCustomPanel (SampleApp/components/panels/ExampleStatsPanel.*): set
+panelType, title, iconUri and order in init, draw your children, override getData, onEventIdChanged,
+onTimeCodeChanged, onFocusEntered and onKeyEvent, and call emitEngage / emitCardFocus for analytics and
+requestFocusReturn to hand focus back to the tab bar.
+Create it and hand it to the SDK once MaestroPanel is in the scene (TestVideo.brs, addCustomPanel):
+    m.lib.callFunc("addPanelToEvent", { node: panel, panelType: panel.panelType, title: panel.title,
+        iconUri: panel.callFunc("stagedIconUri"), order: panel.order })
+The SDK shows it as a tab, pushes it the event and the player clock, keeps it across config reloads and
+sends its view / engage / card_focus beacons (also back to you on trackImpression / trackAction).
+Needs an SDK that has addPanelToEvent (the call returns false on an older one).
+
 Integrating with an AI coding agent
 ===================================
 
@@ -263,6 +277,54 @@ do not invent your own mechanisms for them: setDataToPanel (push data into a
 panel), openToPanel (open a specific tab), userSettings (per-panel toggles such
 as hide_panel and disable_overlays), displayQRCodes, and onPanelEvent /
 userViewedPanel (panel interaction callbacks).
+
+## Custom panels (optional)
+
+A panel of this channel's own can sit in the SDK's tab strip. Do not invent a
+mechanism for it: the SDK has one, and it needs an SDK version that ships
+addPanelToEvent (the call returns false on an older one).
+
+1. Copy the folder components/maestro/MaestroCustomPanel/ from
+   https://github.com/lessthan3/maestro-roku-sdk-example into this channel, as
+   it is. It is plain BrightScript with no dependency; MaestroCustomPanel.md in
+   it is the contract. Never edit the copy and never name a function of yours
+   with the mcp prefix (the base's scripts and yours share one scope).
+
+2. Write a component that extends MaestroCustomPanel. In init set panelType
+   (unique: letters, digits, _; not the name of an SDK panel), title, iconUri
+   (a 36x36 pkg:/ image in this channel) and order (0 = first tab, -1 = after
+   the SDK's own), and draw your children. Override getData (fetch for
+   m.top.eventID and draw; called when the tab first shows), onEventIdChanged,
+   onTimeCodeChanged (the player's clock, epoch ms as a string),
+   onFocusEntered (focus your first control) and onKeyEvent (return false for
+   any key you don't use). Call emitEngage(action, target) when the viewer acts,
+   emitCardFocus(card, index) when focus rests on a card, requestFocusReturn()
+   for a key that should leave the panel (Up on the first row). See
+   components/panels/ExampleStatsPanel.* in the example repo.
+
+3. Hand it to the SDK once MaestroPanel is in the scene (before or after
+   config, both work):
+
+     panel = createObject("roSGNode", "MyStatsPanel")
+     accepted = m.lib.callFunc("addPanelToEvent", {
+         node: panel
+         panelType: panel.panelType
+         title: panel.title
+         iconUri: panel.callFunc("stagedIconUri")
+         order: panel.order
+     })
+
+   CRITICAL: pass panel.callFunc("stagedIconUri"), not panel.iconUri. The SDK
+   draws the tab from inside its component library, where a pkg:/ path of this
+   channel does not resolve; stagedIconUri copies the icon to tmp:/ and returns
+   that path. A rejected call returns false and says why on errorInformation
+   ("addPanelToEvent rejected - ...").
+
+   The SDK then shows the tab, pushes the panel its event and the player clock,
+   keeps it across config reloads, and sends its view, engage and card_focus
+   beacons (e2 = panelType), which also come back to you on trackImpression and
+   trackAction. removePanelFromEvent(panelType) takes it out; destroySDK drops
+   it, so add it again after a restart.
 
 ## Constraints
 

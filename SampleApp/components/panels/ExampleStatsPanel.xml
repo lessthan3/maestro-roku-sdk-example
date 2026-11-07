@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A panel this channel builds and the Maestro SDK shows as a tab: extends the published
+     MaestroCustomPanel (components/maestro/MaestroCustomPanel, copied from the SDK) and is handed
+     to the SDK in TestVideo.brs with addPanelToEvent (Step 5). -->
+<component name="ExampleStatsPanel" extends="MaestroCustomPanel">
+    <script type="text/brightscript" uri="ExampleStatsPanel.brs" />
+    <children>
+        <Label id="heading" translation="[40, 24]" font="font:LargeBoldSystemFont" color="#F3F7FF" />
+        <Label id="clock" translation="[40, 76]" font="font:SmallSystemFont" color="#B8C0CC" />
+        <!-- floatingFocus: the default fixedFocusWrap wraps Up on the first row to the last; without the
+             wrap that Up reaches onKeyEvent, which hands focus back to the tab bar -->
+        <LabelList id="rows" translation="[40, 120]" itemSize="[640, 56]" numRows="4" vertFocusAnimationStyle="floatingFocus" color="#F3F7FF" focusedColor="#101418" />
+    </children>
+</component>

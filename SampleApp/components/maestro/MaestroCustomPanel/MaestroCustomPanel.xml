@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The base of a panel a host channel builds itself and hands to the Maestro SDK:
+       panel = createObject("roSGNode", "MyPanel")          ' MyPanel extends MaestroCustomPanel
+       maestroPanel.callFunc("addPanelToEvent", { node: panel, panelType: panel.panelType,
+           title: panel.title, iconUri: panel.callFunc("stagedIconUri"), order: panel.order })
+     The SDK then shows it as a tab like any of its own panels. Plain BrightScript with no
+     SDK dependency: this folder is copied into the host channel as it is. The subclass
+     overrides getData, onEventIdChanged, onTimeCodeChanged, onFocusEntered and onKeyEvent,
+     and calls emitEngage, emitCardFocus and requestFocusReturn. Contract: MaestroCustomPanel.md -->
+<component name="MaestroCustomPanel" extends="Group">
+    <script type="text/brightscript" uri="MaestroCustomPanel.util.brs" />
+    <script type="text/brightscript" uri="MaestroCustomPanel.brs" />
+    <interface>
+        <!-- ── Metadata: the subclass sets these in init, the SDK reads them when the panel is added ── -->
+        <!-- Unique key ([a-zA-Z0-9_], not the name of an SDK panel): the node id, the tab, analytics e2/e3 -->
+        <field id="panelType" type="string" />
+        <!-- Tab label; also analytics e4 -->
+        <field id="title" type="string" />
+        <!-- Tab icon: a pkg:/ path in the host channel (staged by stagedIconUri) or an http(s) url -->
+        <field id="iconUri" type="string" />
+        <!-- Tab position, 0 = first; -1 = after the SDK's own tabs -->
+        <field id="order" type="integer" value="-1" />
+
+        <!-- ── Written by the SDK ── -->
+        <field id="name" type="string" />
+        <field id="client" type="string" />
+        <field id="clientConfig" type="assocarray" alwaysNotify="true" />
+        <!-- The event on screen ("" on a multi-event page); a change resets panel_view / panel_engage -->
+        <field id="eventID" type="string" alwaysNotify="true" />
+        <!-- The player's position, epoch ms as a string, at most twice a second; "" before the first tick -->
+        <field id="timeCode" type="string" value="" alwaysNotify="true" />
+        <field id="displayQRCodes" type="boolean" value="true" />
+
+        <!-- ── Pulse facts, set here from visibility and focus; the SDK's rules read them ── -->
+        <field id="panel_view" type="boolean" value="false" alwaysNotify="true" />
+        <field id="panel_engage" type="boolean" value="false" alwaysNotify="true" />
+
+        <!-- ── Out: observed by the SDK ── -->
+        <!-- emitEngage(): { action, target, metadata? } -> a panel engage beacon -->
+        <field id="panelEngage" type="assocarray" alwaysNotify="true" />
+        <!-- emitCardFocus(): { list, card, card_index } -> a card_focus beacon after 300 ms; {} clears -->
+        <field id="panelCardFocus" type="assocarray" alwaysNotify="true" />
+        <!-- { title, subTitle, uri?, width?, height? } shows the SDK's error view (an icon, a title and a line
+             under it) in place of this panel; invalid shows the panel again. There is no retry control: a
+             panel that can try again offers its own. uri: http(s), or a pkg:/ image staged with stagedUri -->
+        <field id="errorData" type="assocarray" alwaysNotify="true" />
+        <!-- requestFocusReturn(): give focus back to the SDK's tab bar -->
+        <field id="requestFocusReturn" type="boolean" alwaysNotify="true" />
+
+        <!-- ── Called by the SDK ── -->
+        <!-- Override: fetch and draw. Called when the tab first shows -->
+        <function name="getData" />
+        <!-- The session is over: stops the timers made with mcpTimer. An override calls mcpEndSession() -->
+        <function name="endSession" />
+        <!-- The icon uri to hand the SDK: a pkg:/ icon copied to tmp:/, anything else as it is -->
+        <function name="stagedIconUri" />
+        <!-- Any pkg:/ file of this channel copied to tmp:/, where the SDK can load it (an errorData icon) -->
+        <function name="stagedUri" />
+        <!-- Clears errorData and calls getData again: for a retry control of the panel's own -->
+        <function name="reloadPanel" />
+    </interface>
+</component>
