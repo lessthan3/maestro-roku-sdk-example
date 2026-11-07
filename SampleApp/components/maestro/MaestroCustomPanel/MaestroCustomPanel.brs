@@ -11,7 +11,8 @@
 '      panelType, and name, client, clientConfig, eventID and timeCode written to it.
 '   2. getData() when the tab first shows (or at once, when the SDK fetches on build).
 '   3. visible toggles with the tab; focus enters from the tab bar when focusable is true.
-'   4. endSession() when the session ends, removePanelFromEvent or destroySDK remove it.
+'   4. errorData set here shows the SDK's error view in the panel's place; invalid brings it back.
+'   5. endSession() when the session ends, removePanelFromEvent or destroySDK remove it.
 
 sub init()
     m.mcpTimers = [] ' timers made with mcpTimer, stopped by endSession
@@ -28,8 +29,8 @@ end sub
 
 ' ── Override points ──────────────────────────────────────────────────────────
 
-' Fetch and draw. The SDK calls it when the tab first shows and when the viewer asks for a
-' reload; eventID, timeCode and clientConfig are set by then.
+' Fetch and draw. The SDK calls it when the tab first shows; eventID, timeCode and
+' clientConfig are set by then.
 '
 ' @param {dynamic} params - unused, kept for the SDK's call shape
 sub getData(params = invalid as dynamic)
@@ -110,13 +111,26 @@ function mcpTimer(duration as float, callbackName as string, repeat = false as b
     return timer
 end function
 
-' ── Called by the SDK ────────────────────────────────────────────────────────
+' Something went wrong: the SDK's error view (an icon, a title and a line under it) takes the
+' panel's place until errorData is cleared. The view has no retry control of its own; a panel
+' that can try again offers one and calls reloadPanel.
+'
+' @param {string} title
+' @param {string} subTitle
+' @param {string} iconUri - http(s), or a pkg:/ image of this channel (staged with stagedUri)
+' @param {integer} width - the icon's size on screen; 0 for no icon
+' @param {integer} height
+sub showError(title as string, subTitle = "" as string, iconUri = "" as string, width = 0 as integer, height = 0 as integer)
+    m.top.errorData = { title: title, subTitle: subTitle, uri: stagedUri(iconUri), width: width, height: height }
+end sub
 
-' The viewer pressed "Try again" on the SDK's error view.
+' The error is over, or the panel is trying again: clears errorData and calls getData.
 sub reloadPanel()
     m.top.errorData = invalid
     getData()
 end sub
+
+' ── Called by the SDK ────────────────────────────────────────────────────────
 
 ' The session is over. A subclass that overrides this calls mcpEndSession().
 sub endSession()
@@ -138,13 +152,22 @@ end sub
 '
 ' @return {string} the uri to hand the SDK, or "" when iconUri is empty
 function stagedIconUri() as string
-    uri = m.top.iconUri
+    return stagedUri(m.top.iconUri)
+end function
+
+' A file of this channel where the SDK can load it: a pkg:/ uri is copied to
+' tmp:/maestroCustomPanel_<panelType>_<file name>; anything else (http(s)://, tmp:/, "") is
+' returned as it is. The copy is made again on every call.
+'
+' @param {dynamic} uri
+' @return {string} the uri to hand the SDK
+function stagedUri(uri as dynamic) as string
     if not mcpIsStringWithLength(uri) then return ""
     if Left(uri, 5) <> "pkg:/" then return uri
 
     key = m.top.panelType
     if key = "" then key = m.top.subType()
-    staged = "tmp:/maestroCustomPanel_" + key + mcpFileExtension(uri)
+    staged = "tmp:/maestroCustomPanel_" + key + "_" + mcpFileName(uri)
 
     ' roFileSystem exists on the main and task threads only; a node's scripts run on the
     ' render thread, where roByteArray still reads and writes files.
@@ -192,12 +215,10 @@ sub mcpOnPanelType(event as object)
 end sub
 
 ' @param {string} uri
-' @return {string} ".png" for "pkg:/images/icon.png"; "" when there is no extension
-function mcpFileExtension(uri as string) as string
+' @return {string} "icon.png" for "pkg:/images/icon.png"
+function mcpFileName(uri as string) as string
     for i = Len(uri) to 1 step -1
-        character = Mid(uri, i, 1)
-        if character = "/" then return ""
-        if character = "." then return Mid(uri, i)
+        if Mid(uri, i, 1) = "/" then return Mid(uri, i + 1)
     end for
-    return ""
+    return uri
 end function

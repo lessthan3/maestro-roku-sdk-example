@@ -40,19 +40,23 @@
         <field id="panelEngage" type="assocarray" alwaysNotify="true" />
         <!-- emitCardFocus(): { list, card, card_index } -> a card_focus beacon after 300 ms; {} clears -->
         <field id="panelCardFocus" type="assocarray" alwaysNotify="true" />
-        <!-- { message, ... } shows the SDK's error view in place of this panel; invalid clears it -->
+        <!-- { title, subTitle, uri?, width?, height? } shows the SDK's error view (an icon, a title and a line
+             under it) in place of this panel; invalid shows the panel again. There is no retry control: a
+             panel that can try again offers its own. uri: http(s), or a pkg:/ image staged with stagedUri -->
         <field id="errorData" type="assocarray" alwaysNotify="true" />
         <!-- requestFocusReturn(): give focus back to the SDK's tab bar -->
         <field id="requestFocusReturn" type="boolean" alwaysNotify="true" />
 
         <!-- ── Called by the SDK ── -->
-        <!-- Override: fetch and draw. Called when the tab first shows, and on a reload -->
+        <!-- Override: fetch and draw. Called when the tab first shows -->
         <function name="getData" />
-        <!-- The SDK's error view "Try again": clears errorData, calls getData -->
-        <function name="reloadPanel" />
         <!-- The session is over: stops the timers made with mcpTimer. An override calls mcpEndSession() -->
         <function name="endSession" />
         <!-- The icon uri to hand the SDK: a pkg:/ icon copied to tmp:/, anything else as it is -->
         <function name="stagedIconUri" />
+        <!-- Any pkg:/ file of this channel copied to tmp:/, where the SDK can load it (an errorData icon) -->
+        <function name="stagedUri" />
+        <!-- Clears errorData and calls getData again: for a retry control of the panel's own -->
+        <function name="reloadPanel" />
     </interface>
 </component>

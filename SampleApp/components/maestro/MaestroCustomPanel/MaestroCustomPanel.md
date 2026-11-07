@@ -53,7 +53,9 @@ m.maestroPanel.callFunc("addPanelToEvent", {
 3. `visible` follows the tab. Down from the tab bar focuses the panel (`focusable` is set here) →
    `onFocusEntered()`.
 4. `onEventIdChanged` on a stream switch, `onTimeCodeChanged` as the player moves (twice a second at most).
-5. `endSession()` at the end of the session; `removePanelFromEvent` or the SDK's `destroySDK` take the node out.
+5. `showError(...)` puts the SDK's error view in the panel's place; `reloadPanel()` brings the panel back.
+6. `endSession()` at the end of the session; `removePanelFromEvent` or the SDK's `destroySDK` take the node out
+   (focus goes back to the tab bar if the viewer was inside).
 
 ## Contract
 
@@ -61,15 +63,16 @@ m.maestroPanel.callFunc("addPanelToEvent", {
 | --- | --- | --- |
 | set in init | `panelType`, `title`, `iconUri`, `order` | Read by the SDK at the add. `panelType` is also the node id and analytics e2 / e3; `title` e4. |
 | written by the SDK | `name`, `client`, `clientConfig`, `eventID`, `timeCode`, `displayQRCodes`, `visible` | `eventID` `""` on a multi-event page; `timeCode` epoch ms as a string, `""` before the first tick. |
-| override | `getData(params)` | Fetch and draw. Also the SDK's error view "Try again" (`reloadPanel` clears `errorData` first). |
+| override | `getData(params)` | Fetch and draw, for `m.top.eventID`. |
 | override | `onEventIdChanged(id)`, `onTimeCodeChanged(tc)`, `onFocusEntered()` | A new event (the Pulse facts reset), the player clock, focus in. |
 | override | `onKeyEvent(key, press)` | Return false for a key the panel does not use, OK included: a short OK stays in the panel, a long one closes it, Back and Up (with nothing above) go to the tab bar. |
 | call | `emitEngage(action, target, metadata?)` | An engage beacon: e5 = action, e6 = target. |
 | call | `emitCardFocus(card, index, list?)` · `clearCardFocus()` | A card_focus beacon once focus rests 300 ms. |
 | call | `requestFocusReturn()` | Focus back to the SDK's tab bar. |
 | call | `mcpTimer(seconds, callbackName, repeat?)` | A timer `endSession` stops. |
-| call | `stagedIconUri()` | The icon uri for the add: a `pkg:/` icon copied to `tmp:/` (see Icons). |
-| set | `errorData` | `{ message, ... }` shows the SDK's error view instead of the panel; invalid clears it. |
+| call | `stagedIconUri()` · `stagedUri(uri)` | A `pkg:/` file copied to `tmp:/`, where the SDK can load it (see Icons). |
+| call | `showError(title, subTitle?, iconUri?, width?, height?)` · `reloadPanel()` | The SDK's error view (an icon, a title, a line under it) in the panel's place; `reloadPanel` clears it and calls `getData`. The view has no retry control: offer your own. |
+| set | `errorData` | What `showError` sets: `{ title, subTitle, uri?, width?, height? }`; invalid shows the panel again. |
 | Pulse | `panel_view`, `panel_engage` | Set here on first show / first focus; SDK rules keyed on `panelType` read them. |
 
 ## Rules
@@ -79,9 +82,11 @@ m.maestroPanel.callFunc("addPanelToEvent", {
 - **An `endSession` override calls `mcpEndSession()`**, or the base's timers keep running.
 - **No SDK helpers.** The node runs in your channel; only its interface crosses to the SDK.
 - **`id` is the SDK's**: it writes `panelType` there.
-- **Icons:** the SDK draws the tab from inside its component library, where your `pkg:/` path does not resolve.
-  `stagedIconUri()` copies the icon to `tmp:/maestroCustomPanel_<panelType>.<ext>` and returns that path; an
-  `http(s)://` uri is returned as it is. Call it at the add, after `iconUri` and `panelType` are set.
+- **Icons:** the SDK draws the tab (and the error view) from inside its component library, where your `pkg:/`
+  path does not resolve. `stagedIconUri()` copies the icon to `tmp:/maestroCustomPanel_<panelType>_<file>` and
+  returns that path (`stagedUri(uri)` does it for any file); an `http(s)://` uri is returned as it is. Call it
+  at the add, after `iconUri` and `panelType` are set.
+- **`panelType` is the spec's:** the SDK writes the type it was given back to the field at the add.
 - **Update:** copy the folder again from the SDK's `src-host/core/MaestroCustomPanel`
   (`npm run custom-panel:publish` writes it, with a version file, into `maestro-roku-sdk-example`). Do not edit
   the copy.
